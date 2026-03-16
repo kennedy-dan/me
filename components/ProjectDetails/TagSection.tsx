@@ -1,3 +1,4 @@
+// components/ProjectDetails/TagSection.tsx
 import React from "react";
 
 interface TagSectionProps {
@@ -12,47 +13,35 @@ export default function TagSection({
   subtitle,
   excerpt,
   listArr,
-}: TagSectionProps) {
-  const titleWords = title.split(" ");
-  const isShort = titleWords.length <= 2;
-
+}: TagSectionProps): React.ReactElement {
   return (
     <section>
-      <section className="border-b border-b-black-200 lg:pb-10 pb-4">
-        <div className={`${isShort ? "w-fit" : "lg:w-[50%] w-[70%]"}`}>
-          <h1
-            className={`header-style flex gap-x-4 ${
-              isShort ? "flex-nowrap" : "flex-wrap"
-            }`}
-          >
-            {titleWords?.map((word) => {
-              const isConjunction =
-                word.includes("and") || word.includes("or");
-              return (
-                <span key={word} className={isConjunction ? "font-thin" : ""}>
-                  {word}
-                </span>
-              );
-            })}
-          </h1>
-        </div>
-      </section>
-
-      <div className="py-10 flex justify-between flex-col lg:flex-row">
-        <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-          <p className="uppercase text-md lg:w-[60%] w-full">{subtitle}</p>
+      <div className="grid lg:grid-cols-12 gap-8">
+        {/* Left Column - Title */}
+        <div className="lg:col-span-3">
+          <p className="text-xs font-mono text-gray-400 tracking-wider">
+            {subtitle.toUpperCase()}
+          </p>
         </div>
 
-        <div className="lg:w-[75%] w-full space-y-4 lg:text-size24 text-base">
-          <p>{excerpt}</p>
+        {/* Right Column - Content */}
+        <div className="lg:col-span-9 space-y-6">
+          <h2 className="text-2xl lg:text-3xl font-light text-gray-900">
+            {title}
+          </h2>
+          
+          {excerpt && (
+            <p className="text-gray-600 leading-relaxed">
+              {excerpt}
+            </p>
+          )}
+          
           {listArr && listArr.length > 0 && (
-            <ul className="pl-10 space-y-4">
+            <ul className="space-y-3 mt-6">
               {listArr.map((item, index) => (
-                <li
-                  key={index}
-                  className="list-disc font-light lg:text-xl text-md lg:w-9/12"
-                >
-                  {item}
+                <li key={index} className="flex items-start gap-3 text-gray-500">
+                  <span className="text-gray-300 text-sm mt-1">→</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>

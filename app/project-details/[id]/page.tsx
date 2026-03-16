@@ -1,88 +1,135 @@
-// app/project-details/[id]/page.tsx (or wherever your ProjectDetails component is)
+// app/project-details/[id]/page.tsx
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/all";
+
 import Loader from "@/components/Loader";
 import ProjectIntro from "@/components/ProjectDetails/ProjectIntro";
 import Snippet from "@/components/ProjectDetails/Snippet";
 import Tagline from "@/components/ProjectDetails/Tagline";
-import Architecture from "@/components/ProjectDetails/Architecture"; // 🚀 NEW IMPORT
-import { ProjectContext } from "@/context/ProjectContext";
-import { animateText, splitWords } from "@/utils";
-import { ProjectDetails as ProjectDetailsType } from "@/types/project.types";
+import Architecture from "@/components/ProjectDetails/Architecture";
 import MasterLayout from "@/components/layout/Layout";
 
-export default function ProjectDetails() {
+// Types & Data
+import { ProjectDetails as ProjectDetailsType } from "@/types/project.types";
+import { projectsData } from "@/data/projects";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+export default function ProjectDetailsPage(): React.ReactElement {
   const { id } = useParams();
-  const { fetchProject, isLoading } = useContext(ProjectContext);
   const [details, setDetails] = useState<ProjectDetailsType | null>(null);
-  const [isDetailsLoading, setIsDetailsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!id) return;
     
     const projectId = Array.isArray(id) ? id[0] : id;
-    fetchProject();
-    setIsDetailsLoading(true);
+    setIsLoading(true);
 
-    // Simulate API call with hardcoded data
-    import("@/data/projects").then(({ projectsData }) => {
+    // Simulate API call
+    setTimeout(() => {
       const project = projectsData.find((p) => p._id === projectId);
-      setTimeout(() => {
-        setDetails(project || null);
-        setIsDetailsLoading(false);
-      }, 1500);
-    });
-  }, [id, fetchProject]);
+      setDetails(project || null);
+      setIsLoading(false);
+    }, 800);
+  }, [id]);
 
+  // Text animations
   useGSAP(() => {
-    if (isDetailsLoading) return;
+    if (isLoading || !details) return;
 
-    const tags = {
-      tag: splitWords(".tag"),
-      name: splitWords(".name"),
-    };
+    // Animate title
+    const titleSplit = new SplitText(".project-title", { type: "words, chars" });
+    gsap.from(titleSplit.chars, {
+      opacity: 0,
+      y: 20,
+      stagger: 0.02,
+      duration: 0.8,
+      ease: "power3.out",
+      delay: 0.2
+    });
 
-    const { tag, name } = tags;
-    animateText(tag, ".tag");
-    animateText(name, ".name");
-  }, [isDetailsLoading]);
+    // Animate sections on scroll
+    const sections = gsap.utils.toArray<HTMLElement>(".animate-section");
+    sections.forEach((section) => {
+      gsap.from(section, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
 
-  if (!details) return null;
+  }, [isLoading, details]);
+
+  if (!details && !isLoading) {
+    return (
+      <MasterLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-gray-400 font-mono">Project not found</p>
+        </div>
+      </MasterLayout>
+    );
+  }
 
   return (
     <MasterLayout>
-      {isDetailsLoading && <Loader />}
+      {isLoading && <Loader />}
 
-      {!isDetailsLoading && (
-        <section className="space-y-40 overflow-x-hidden">
+      {!isLoading && details && (
+        <main className="bg-white">
           <ProjectIntro details={details} />
-          <Tagline details={details} />
+          
+          <div className="space-y-32 lg:space-y-40 pb-32">
+            <Tagline details={details} />
 
-          {/* extra images */}
-          {details?.extraImages && details.extraImages.length > 0 && (
-            <section className="w-11/12 mx-auto grid lg:grid-cols-3 gap-x-5 overflow-x-hidden gap-y-4">
-              {details.extraImages.map((image, index) => {
-                const imageUrl = image.url || "/images/placeholder.jpg";
-                return (
-                  <div
-                    key={index}
-                    className="bg-gray-100 py-4 px-4 rounded-xl flex items-center justify-center"
-                  >
-                    <img src={imageUrl} className="h-[240px] object-cover" alt="" />
-                  </div>
-                );
-              })}
+            {/* Extra Images */}
+            {details.extraImages && details.extraImages.length > 0 && (
+              <section className="max-w-7xl mx-auto px-6 lg:px-12 animate-section">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {details.extraImages.map((image, index) => {
+                    const imageUrl = image.url || "/images/placeholder.jpg";
+                    return (
+                      <div
+                        key={index}
+                        className="aspect-[4/3] bg-gray-50 border border-gray-100 overflow-hidden"
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={`${details.name} screenshot ${index + 1}`}
+                          className="w-full h-full object-cover transition-all duration-700"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+
+            {/* Architecture Section */}
+            {details.architecture && (
+              <section className="animate-section">
+                <Architecture architecture={details.architecture} />
+              </section>
+            )}
+
+            {/* Snippet/Next Project */}
+            <section className="animate-section">
+              <Snippet details={details} />
             </section>
-          )}
-
-          {/* 🚀 NEW ARCHITECTURE SECTION */}
-          {details.architecture && <Architecture architecture={details.architecture} />}
-
-          {!isLoading && <Snippet details={details} />}
-        </section>
+          </div>
+        </main>
       )}
     </MasterLayout>
   );

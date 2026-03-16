@@ -1,89 +1,85 @@
+// components/ProjectDetails/Tagline.tsx
 "use client";
 
 import React from "react";
 import TagSection from "./TagSection";
 import { ProjectDetails } from "@/types/project.types";
-import { getImageUrl } from "@/utils";
 
 interface TaglineProps {
   details: ProjectDetails;
 }
 
-export default function Tagline({ details }: TaglineProps) {
+export default function Tagline({ details }: TaglineProps): React.ReactElement {
   const { problems, goals, target, role, accessibility } = details;
 
-  const problemsObj = {
-    title: "Problems and pain points",
-    subtitle: "Problems and pain points",
-    excerpt: problems?.description,
-    listArr: problems?.lists,
-  };
-
-  const goalsObj = {
-    title: "Goals and Objectives",
-    subtitle: "Goals and Objectives",
-    excerpt: goals?.description,
-    listArr: goals?.lists,
-  };
-
-  const targetObj = {
-    title: "Target Audience",
-    subtitle: "WHO ARE THE PRODUCT FOR",
-    excerpt: target?.description,
-    listArr: target?.lists,
-  };
-
-  const roleObj = {
-    title: "My role",
-    subtitle: "Role played",
-    excerpt: role?.description,
-    listArr: role?.lists,
-  };
+  const sections = [
+    {
+      title: "Problems & Challenges",
+      subtitle: "Initial challenges",
+      excerpt: problems?.description,
+      listArr: problems?.lists,
+    },
+    {
+      title: "Goals & Objectives",
+      subtitle: "What we aimed to achieve",
+      excerpt: goals?.description,
+      listArr: goals?.lists,
+    },
+    {
+      title: "Target Audience",
+      subtitle: "Who we built this for",
+      excerpt: target?.description,
+      listArr: target?.lists,
+    },
+    {
+      title: "My Role",
+      subtitle: "How I contributed",
+      excerpt: role?.description,
+      listArr: role?.lists,
+    },
+  ];
 
   return (
-    <section>
-      <section className="wrapper lg:space-y-30 space-y-8">
-        <TagSection {...problemsObj} />
+    <section className="max-w-7xl mx-auto px-6 lg:px-12 space-y-32">
+      {sections.map((section, index) => (
+        <TagSection key={index} {...section} />
+      ))}
 
+      {/* Accessibility Section */}
+      {accessibility && (
         <section>
-          <section className="border-b border-b-black-200 lg:pb-10 pb-4">
-            <div className="lg:w-[50%] w-[70%]">
-              <h1 className="header-style flex gap-x-4 flex-wrap">
-                Accessibility compliance
-              </h1>
+          <div className="grid lg:grid-cols-12 gap-8 border-t border-gray-100 pt-16">
+            <div className="lg:col-span-3">
+              <p className="text-xs font-mono text-gray-400 tracking-wider">
+                ACCESSIBILITY
+              </p>
             </div>
-          </section>
-          <section>
-            <div className="py-10 flex justify-between flex-col lg:flex-row">
-              <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-                <p className="uppercase text-md lg:w-[60%] w-full">
-                  Accessibility
-                </p>
-              </div>
-              <div className="lg:w-[75%] w-full space-y-4 lg:text-size24 text-base">
-                <p>{accessibility?.description}</p>
-                <ul className="space-y-4 bg-[#fdebdf] w-fit flex flex-wrap items-stretch lg:flex-row gap-x-2 flex-col">
-                  {accessibility?.images?.map((image, index) => {
-                    const imageUrl = getImageUrl(image);
-                    return (
-                      <div
-                        key={index}
-                        className=" py-4 px-4 rounded-xl flex items-center justify-center"
-                      >
-                        <img src={imageUrl} className="h-[540px]" alt="" />
-                      </div>
-                    );
-                  })}
-                </ul>
-              </div>
+            
+            <div className="lg:col-span-9 space-y-8">
+              <p className="text-gray-600 leading-relaxed">
+                {accessibility.description}
+              </p>
+              
+              {accessibility.images && accessibility.images.length > 0 && (
+                <div className="grid md:grid-cols-2 gap-6 mt-8">
+                  {accessibility.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className="aspect-[4/3] bg-gray-50 border border-gray-100 "
+                    >
+                      <img
+                        src={image.url || "/images/placeholder.jpg"}
+                        alt={`Accessibility feature ${index + 1}`}
+                        className="w-full h-[full] object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          </section>
+          </div>
         </section>
-
-        <TagSection {...goalsObj} />
-        <TagSection {...targetObj} />
-        <TagSection {...roleObj} />
-      </section>
+      )}
     </section>
   );
 }

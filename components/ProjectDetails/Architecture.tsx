@@ -8,178 +8,151 @@ interface ArchitectureProps {
   architecture: ProjectArchitecture;
 }
 
-export default function Architecture({ architecture }: ArchitectureProps) {
+export default function Architecture({ architecture }: ArchitectureProps): React.ReactElement {
   return (
-    <section className="wrapper space-y-30">
-      {/* Architecture Header - Matching Tagline style */}
-      <section className="border-b border-b-black-200 pb-10">
-        <div className="lg:w-[50%] w-[70%]">
-          <h1 className="header-style flex gap-x-4 flex-wrap">
-            Architecture Overview
-          </h1>
+    <section className="max-w-7xl mx-auto px-6 lg:px-12 space-y-32">
+      
+      {/* Header */}
+      <div className="grid lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-3">
+          <p className="text-xs font-mono text-gray-400 tracking-wider">
+            ARCHITECTURE
+          </p>
         </div>
-      </section>
-
-      {/* Architecture Description - Matching Tagline description style */}
-      <section>
-        <div className="py-10 flex justify-between flex-col lg:flex-row">
-          <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-            <p className="uppercase text-md lg:w-[60%] w-full">Overview</p>
-          </div>
-          <div className="lg:w-[75%] w-full space-y-4 lg:text-size24 text-base">
-            <p className="text-black-400">{architecture.overview}</p>
-          </div>
+        
+        <div className="lg:col-span-9 space-y-6">
+          <h2 className="text-2xl lg:text-3xl font-light text-gray-900">
+            Technical Architecture
+          </h2>
+          
+          <p className="text-gray-600 leading-relaxed">
+            {architecture.overview}
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* 🚀 NEW ARCHITECTURE IMAGE SECTION */}
+      {/* Architecture Diagram */}
       {architecture.image && (
-        <section>
-          <div className="py-10 flex justify-between flex-col lg:flex-row">
-            <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-              <p className="uppercase text-md lg:w-[60%] w-full">
-                Architecture Diagram
-              </p>
-            </div>
-            <div className="lg:w-[75%] w-full">
-              <div className="bg-gray-100 rounded-2xl p-6 flex items-center justify-center border border-black-200">
-                <img 
-                  src={architecture.image.url} 
-                  alt={architecture.image.caption || "Architecture diagram"}
-                  className="w-full h-auto object-contain rounded-lg shadow-lg"
-                />
-              </div>
+        <div className="grid lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-3">
+            <p className="text-xs font-mono text-gray-400 tracking-wider">
+              DIAGRAM
+            </p>
+          </div>
+          
+          <div className="lg:col-span-9">
+            <div className="bg-gray-50 border border-gray-100 p-8 overflow-hidden">
+              <img
+                src={architecture.image.url}
+                alt={architecture.image.caption || "Architecture diagram"}
+                className="w-full h-auto"
+              />
               {architecture.image.caption && (
-                <p className="text-sm text-black-300 mt-3 text-center italic">
+                <p className="text-sm text-gray-400 font-mono mt-4 text-center">
                   {architecture.image.caption}
                 </p>
               )}
             </div>
           </div>
-        </section>
+        </div>
       )}
 
-      {/* Technology Stack Section */}
-      <section>
-        <section className="border-b border-b-black-200 lg:pb-10 pb-4">
-          <div className="lg:w-[50%] w-[70%]">
-            <h1 className="header-style flex gap-x-4 flex-wrap">
-              Technology Stack
-            </h1>
-          </div>
-        </section>
+      {/* Technology Stack */}
+      <div className="grid lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-3">
+          <p className="text-xs font-mono text-gray-400 tracking-wider">
+            TECH STACK
+          </p>
+        </div>
         
-        <section>
-          <div className="py-10 flex justify-between flex-col lg:flex-row">
-            <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-              <p className="uppercase text-md lg:w-[60%] w-full">
-                Tools & Technologies
+        <div className="lg:col-span-9 space-y-12">
+          {architecture.stack.map((tech, index) => (
+            <div key={index} className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">
+                {tech.category}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                {tech.description}
               </p>
-            </div>
-            <div className="lg:w-[75%] w-full space-y-8">
-              {architecture.stack.map((tech, index) => (
-                <div key={index} className="space-y-4">
-                  <h4 className="text-size20 font-medium text-black-400">{tech.category}</h4>
-                  <p className="text-black-300 text-base">{tech.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {tech.technologies.map((item, idx) => (
-                      <span 
-                        key={idx} 
-                        className="w-fit px-3 uppercase text-xs py-2 text-white bg-black rounded-full"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                  {index < architecture.stack.length - 1 && (
-                    <hr className="border-black-200 mt-6" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </section>
-
-      {/* Key Components Section */}
-      <section>
-        <section className="border-b border-b-black-200 lg:pb-10 pb-4">
-          <div className="lg:w-[50%] w-[70%]">
-            <h1 className="header-style flex gap-x-4 flex-wrap">
-              Key Components
-            </h1>
-          </div>
-        </section>
-        
-        <section>
-          <div className="py-10 flex justify-between flex-col lg:flex-row">
-            <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-              <p className="uppercase text-md lg:w-[60%] w-full">
-                Core Features
-              </p>
-            </div>
-            <div className="lg:w-[75%] w-full space-y-8">
-              {architecture.keyComponents.map((component, index) => (
-                <div key={index} className="space-y-4">
-                  <h4 className="text-size20 font-medium text-black-400">{component.name}</h4>
-                  <p className="text-black-300 text-base">{component.description}</p>
-                  <ul className="space-y-2">
-                    {component.features.map((feature, idx) => (
-                      <li key={idx} className="text-black-300 text-base flex items-start gap-2">
-                        <span className="text-green-500 text-xl leading-5">•</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  {index < architecture.keyComponents.length - 1 && (
-                    <hr className="border-black-200 mt-6" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </section>
-
-      {/* Data Flow Section */}
-      <section>
-        <section className="border-b border-b-black-200 lg:pb-10 pb-4">
-          <div className="lg:w-[50%] w-[70%]">
-            <h1 className="header-style flex gap-x-4 flex-wrap">
-              Data Flow
-            </h1>
-          </div>
-        </section>
-        
-        <section>
-          <div className="py-10 flex justify-between flex-col lg:flex-row">
-            <div className="lg:w-[25%] w-full lg:font-medium font-semibold">
-              <p className="uppercase text-md lg:w-[60%] w-full">
-                User Journey
-              </p>
-            </div>
-            <div className="lg:w-[75%] w-full">
-              <div className="grid lg:grid-cols-2 gap-8">
-                {architecture.dataFlow.map((flow, index) => (
-                  <div key={index} className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <span className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                        {index + 1}
-                      </span>
-                      <h4 className="font-semibold text-black-400 text-size20">
-                        {flow.step}
-                      </h4>
-                    </div>
-                    <p className="text-black-300 text-base ml-11">
-                      {flow.flow}
-                    </p>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {tech.technologies.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-gray-50 text-xs font-mono text-gray-500 border border-gray-100"
+                  >
+                    {item}
+                  </span>
                 ))}
               </div>
+              {index < architecture.stack.length - 1 && (
+                <hr className="border-gray-100 mt-8" />
+              )}
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Key Components */}
+      <div className="grid lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-3">
+          <p className="text-xs font-mono text-gray-400 tracking-wider">
+            COMPONENTS
+          </p>
+        </div>
+        
+        <div className="lg:col-span-9 space-y-12">
+          {architecture.keyComponents.map((component, index) => (
+            <div key={index} className="space-y-4">
+              <h3 className="text-lg font-medium text-gray-900">
+                {component.name}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                {component.description}
+              </p>
+              <ul className="space-y-2 mt-4">
+                {component.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-gray-500 text-sm">
+                    <span className="text-gray-300">•</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              {index < architecture.keyComponents.length - 1 && (
+                <hr className="border-gray-100 mt-8" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Data Flow */}
+      <div className="grid lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-3">
+          <p className="text-xs font-mono text-gray-400 tracking-wider">
+            DATA FLOW
+          </p>
+        </div>
+        
+        <div className="lg:col-span-9">
+          <div className="grid md:grid-cols-2 gap-8">
+            {architecture.dataFlow.map((flow, index) => (
+              <div key={index} className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-6 h-6 bg-gray-100 text-gray-500 text-xs flex items-center justify-center font-mono">
+                    {index + 1}
+                  </span>
+                  <h4 className="text-sm font-medium text-gray-900">
+                    {flow.step}
+                  </h4>
+                </div>
+                <p className="text-sm text-gray-500 pl-9">
+                  {flow.flow}
+                </p>
+              </div>
+            ))}
           </div>
-        </section>
-      </section>
+        </div>
+      </div>
     </section>
   );
 }

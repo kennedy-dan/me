@@ -67,13 +67,10 @@ export default function Hero() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 pt-8 opacity-0 animate-fade-in-up max-w-2xl"
                  style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
               <div>
-                <div className="text-3xl font-light text-gray-900">3+</div>
+                <div className="text-3xl font-light text-gray-900">4+</div>
                 <div className="text-sm text-gray-500 mt-1">Years Building</div>
               </div>
-              <div>
-                <div className="text-3xl font-light text-gray-900">20+</div>
-                <div className="text-sm text-gray-500 mt-1">Projects Delivered</div>
-              </div>
+            
               <div className="col-span-2 md:col-span-1">
                 <div className="text-3xl font-light text-gray-900">100%</div>
                 <div className="text-sm text-gray-500 mt-1">Client Satisfaction</div>
