@@ -1,26 +1,351 @@
 @import "tailwindcss";
 
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  font-family: "Public Sans", sans-serif;
+  font-kerning: normal !important;
+  font-weight: 400;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424; */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
 }
+.carousel:hover .comment-carousel {
+  animation-play-state: paused;
+}
+.comment-carousel {
+  will-change: transform;
+  animation: comments 30s linear infinite;
+}
+
+
+.intro .desc {
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@keyframes comments {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    /* transform: translateX(-50%); */
+    transform: translateX(calc(-100% / 2));
+  }
+}
+
+.tools-carousel {
+  animation: loop 50s linear infinite;
+  will-change: transform; /* Hints browser to optimize for animations */
+  backface-visibility: hidden; /* Prevents flicker on some devices */
+}
+@keyframes loop {
+  from {
+    transform: translateX(20%);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.top-carousel {
+  animation: animate-left linear 90s infinite;
+}
+
+@keyframes animate-left {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.bottom-carousel {
+  animation: animate-right linear 70s infinite;
+}
+
+@keyframes animate-right {
+  from {
+    transform: translateX(-90%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.client-wrapper {
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0,0)
+  );
+}
+
+.client-img {
+  animation: clientMarquee linear 25s infinite;
+}
+
+@keyframes clientMarquee {
+  to {
+    left: -100px;
+  }
+}
+
+.showcase-img {
+  animation: showcaseMarquee linear 30s infinite;
+}
+
+@keyframes showcaseMarquee  {
+  to {
+    left: -400px;
+  }
+}
+
+/*  */
+
+::selection {
+  background-color: black !important;
+  color: #ffffff !important;
+}
+
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  height: 55px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/*  */
+
+.ant-modal-content {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+/* LOADER  */
+.loader-container {
+  text-align: center;
+}
+
+.square-loader {
+  position: relative;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: 16px 16px;
+  grid-template-rows: 16px 16px;
+}
+
+.gray-segment {
+  width: 16px;
+  height: 16px;
+  background: #d9d9d9;
+  opacity: 0;
+}
+
+.segment-1 {
+  grid-column: 1;
+  grid-row: 1;
+  animation: reveal1 3s ease-in-out infinite;
+}
+.segment-2 {
+  grid-column: 2;
+  grid-row: 1;
+  animation: reveal2 3s ease-in-out infinite;
+}
+
+.segment-3 {
+  grid-column: 2;
+  grid-row: 2;
+  animation: reveal3 3s ease-in-out infinite;
+}
+
+.segment-4 {
+  grid-column: 1;
+  grid-row: 2;
+  animation: reveal4 3s ease-in-out infinite;
+}
+
+.dark-box {
+  width: 16px;
+  height: 16px;
+  background: #2a2a2a;
+  border-radius: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: moveBox 3s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes reveal1 {
+  0%,
+  6% {
+    opacity: 0;
+  }
+  6.5%,
+  50% {
+    opacity: 1;
+  }
+  50%,
+  56% {
+    opacity: 1;
+  }
+  56.5%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal2 {
+  0%,
+  18.5% {
+    opacity: 0;
+  }
+  19%,
+  50% {
+    opacity: 1;
+  }
+  50%,
+  68.5% {
+    opacity: 1;
+  }
+  69%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal3 {
+  0%,
+  31% {
+    opacity: 0;
+  }
+  31.5%,
+  50% {
+    opacity: 1;
+  }
+  50%,
+  81% {
+    opacity: 1;
+  }
+  81.5%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal4 {
+  0%,
+  43.5% {
+    opacity: 0;
+  }
+  44%,
+  50% {
+    opacity: 1;
+  }
+  50%,
+  93.5% {
+    opacity: 1;
+  }
+  94%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes moveBox {
+  0% {
+    top: 0;
+    left: 0;
+  }
+  12.5% {
+    top: 0;
+    left: 16px;
+  }
+  25% {
+    top: 16px;
+    left: 16px;
+  }
+  37.5% {
+    top: 16px;
+    left: 0;
+  }
+  50% {
+    top: 0;
+    left: 0;
+  }
+  62.5% {
+    top: 0;
+    left: 16px;
+  }
+  75% {
+    top: 16px;
+    left: 16px;
+  }
+  87.5% {
+    top: 16px;
+    left: 0;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .tools-carousel {
+    animation: none;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.project-card {
+  margin-bottom: 10vh;
+}
+
+
+
+
