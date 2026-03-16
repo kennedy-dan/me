@@ -134,7 +134,7 @@ export default function AboutMe(): React.ReactElement {
                 <img
                   src="/images/myself.png"
                   alt="Kennedy - Front-End Developer"
-className="w-full h-full object-cover grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-700"                />
+className="w-full h-full object-cover grayscale md:hover:grayscale-0 transition-all duration-700"                />
               </div>
               
               {/* Minimal Decorative Element */}
