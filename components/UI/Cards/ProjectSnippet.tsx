@@ -25,7 +25,7 @@ export default function ProjectSnippet({
         <img 
           src={snippet} 
           alt={name}
-          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+          className="w-full h-full object-cover md:grayscale group-hover:grayscale-0 transition-all duration-700"
         />
         
         {/* Overlay with Tech Tags - Appears on Hover */}

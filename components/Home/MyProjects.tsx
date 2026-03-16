@@ -106,7 +106,7 @@ export default function FeaturedWork() {
                       <img
                         src={project.imagePreview}
                         alt={project.name}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        className="w-full h-full object-cover md:grayscale group-hover:grayscale-0 transition-all duration-700"
                       />
                       
                       {/* Overlay with Quick Links */}
